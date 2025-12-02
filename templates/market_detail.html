@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic.market_title or topic.title or 'Market' }} · Opinion Intelligence</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/opinion_feed.css">
+</head>
+<body>
+<div class="container py-4">
+    <div class="feed-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+            <p class="mb-1"><a href="/markets" class="text-decoration-none">← Back to markets</a></p>
+            <div class="subtle-label mb-1">Market</div>
+            <h1 class="mb-1">{{ topic.market_title or topic.title }}</h1>
+            <div class="meta mb-2 d-flex flex-wrap gap-1">
+                {% for category in topic.ui_categories %}
+                    <span class="badge rounded-pill badge-category {{ 'accent' if loop.first else '' }}">{{ category }}</span>
+                {% endfor %}
+            </div>
+            {% if topic.event_archetype %}
+                <div class="text-muted">{{ topic.event_archetype.replace('_', ' ') }}</div>
+            {% endif %}
+        </div>
+        <div class="d-flex flex-column gap-2 align-items-end">
+            {% if topic.opinion_market_url %}
+                <a class="btn btn-opinion" target="_blank" href="{{ topic.opinion_market_url }}">Go to Opinion</a>
+            {% endif %}
+            <a class="btn btn-opinion-outline" href="/opinion/feed?category={{ topic.ui_categories[0] if topic.ui_categories else 'All' }}">See related feed</a>
+        </div>
+    </div>
+
+    {% if feed_items %}
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="text-muted">{{ feed_items|length }} intel items linked to this market</div>
+        </div>
+        {% for item in feed_items %}
+            <div class="opinion-card">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <div class="meta">{{ item.source }} · {{ item.published_at or 'No timestamp' }}</div>
+                        <h4 class="mb-1"><a class="link-dark text-decoration-none" target="_blank" href="{{ item.link or '#' }}">{{ item.title }}</a></h4>
+                    </div>
+                    {% if item.link %}
+                        <a class="btn btn-opinion-outline btn-sm" href="{{ item.link }}" target="_blank">Source</a>
+                    {% endif %}
+                </div>
+                {% if item.summary %}
+                    <div class="summary-text">{{ item.summary }}</div>
+                {% endif %}
+                <div class="mt-2 small text-muted">Match score placeholder · sentiment hooks can be added later</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">No intelligence linked to this market yet.</div>
+    {% endif %}
+</div>
+</body>
+</html>

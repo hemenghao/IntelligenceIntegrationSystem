@@ -1,0 +1,87 @@
+[
+  {
+    "uuid": "demo-001",
+    "title": "Tether releases new reserve attestation, reinforces backing",
+    "source": "Coindesk",
+    "summary": "The latest USDT reserve attestation highlights higher treasury exposure and stronger capital buffers, reducing near-term depeg risk.",
+    "published_at": "2025-02-02 10:00 UTC",
+    "link": "https://www.coindesk.com/tether-attestation",
+    "opinion_annotations": [
+      {
+        "topic_id": "opinion_1463",
+        "sentiment_for_yes": "bearish",
+        "impact_level": "medium",
+        "reason": "Higher reserves make a sustained depeg less likely in the coming months.",
+        "opinion_market_url": "https://opinion.xyz/market/1463"
+      }
+    ]
+  },
+  {
+    "uuid": "demo-002",
+    "title": "Ethereum core devs lock in spring upgrade schedule",
+    "source": "The Block",
+    "summary": "Developers finalize timelines for the next network upgrade, keeping staking rewards steady while preparing data-availability improvements.",
+    "published_at": "2025-02-03 08:30 UTC",
+    "link": "https://www.theblock.co/eth-upgrade",
+    "opinion_annotations": [
+      {
+        "topic_id": "opinion_1755",
+        "sentiment_for_yes": "bullish",
+        "impact_level": "medium",
+        "reason": "Clear upgrade cadence reduces execution risk and keeps the ATH narrative alive.",
+        "opinion_market_url": "https://opinion.xyz/market/1755"
+      }
+    ]
+  },
+  {
+    "uuid": "demo-003",
+    "title": "Kraken quietly beefs up compliance hires ahead of rumored IPO",
+    "source": "Bloomberg",
+    "summary": "The exchange added senior compliance staff in the US and UK, a typical move before filing S-1 paperwork.",
+    "published_at": "2025-02-05 12:15 UTC",
+    "link": "https://www.bloomberg.com/kraken-ipo-hires",
+    "opinion_annotations": [
+      {
+        "topic_id": "opinion_1888",
+        "sentiment_for_yes": "bullish",
+        "impact_level": "high",
+        "reason": "Compliance ramp signals IPO readiness, improving odds of a filing before 2026.",
+        "opinion_market_url": "https://opinion.xyz/market/1888"
+      }
+    ]
+  },
+  {
+    "uuid": "demo-004",
+    "title": "Ukraine and Russia confirm new prisoner exchange talks",
+    "source": "Reuters",
+    "summary": "Negotiators will meet next week to finalize terms, with a ceasefire framework reportedly on the agenda.",
+    "published_at": "2025-02-06 09:00 UTC",
+    "link": "https://www.reuters.com/russia-ukraine-ceasefire",
+    "opinion_annotations": [
+      {
+        "topic_id": "opinion_1520",
+        "sentiment_for_yes": "bullish",
+        "impact_level": "medium",
+        "reason": "Direct talks raise the probability of a formal ceasefire before Q3 ends.",
+        "opinion_market_url": "https://opinion.xyz/market/1520"
+      }
+    ]
+  },
+  {
+    "uuid": "demo-005",
+    "title": "New zk-rollup confirms token generation event in Q3",
+    "source": "TechCrunch",
+    "summary": "The team announced an audit window and airdrop criteria, pointing to a summer TGE if timelines hold.",
+    "published_at": "2025-02-07 14:45 UTC",
+    "link": "https://techcrunch.com/new-zk-rollup-tge",
+    "opinion_annotations": [
+      {
+        "topic_id": "opinion_1999",
+        "sentiment_for_yes": "bullish",
+        "impact_level": "high",
+        "reason": "Public timelines and audits de-risk the launch schedule, boosting odds of a 2025 TGE.",
+        "opinion_market_url": "https://opinion.xyz/market/1999"
+      }
+    ]
+  }
+]
