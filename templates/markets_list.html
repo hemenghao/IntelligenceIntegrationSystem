@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markets · Opinion Intelligence</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/opinion_feed.css">
+</head>
+<body>
+<div class="container py-4">
+    <div class="feed-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <div class="subtle-label mb-1">Opinion · Intelligence Layer</div>
+            <h1 class="mb-0">Markets</h1>
+            <div class="text-muted">Pick a market to open its intelligence stream.</div>
+        </div>
+        <a class="btn btn-opinion-outline" href="/opinion/feed">See all intel</a>
+    </div>
+
+    <ul class="nav nav-pills my-3">
+        {% for category in categories %}
+            <li class="nav-item">
+                <a class="nav-link {% if category == active_category %}active{% endif %}" href="?category={{ category }}">{{ category }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if markets %}
+        <div class="row g-3">
+            {% for market in markets %}
+                <div class="col-12 col-md-6">
+                    <div class="opinion-card h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="subtle-label mb-1">Market</div>
+                                <h4 class="mb-1"><a href="/markets/{{ market.topic_id }}" class="link-dark text-decoration-none">{{ market.market_title }}</a></h4>
+                                <div class="meta d-flex flex-wrap gap-1">
+                                    {% for category in market.ui_categories %}
+                                        <span class="badge rounded-pill badge-category {{ 'accent' if loop.first else '' }}">{{ category }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% if market.event_archetype %}
+                                    <div class="text-muted small mt-1">{{ market.event_archetype.replace('_', ' ') }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex flex-column align-items-end gap-2">
+                                <a class="btn btn-sm btn-opinion" href="/markets/{{ market.topic_id }}">View intel</a>
+                                {% if market.opinion_market_url %}
+                                    <a class="btn btn-sm btn-opinion-outline" target="_blank" href="{{ market.opinion_market_url }}">Trade on Opinion</a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card-divider"></div>
+
+                        <div class="mt-2 d-flex flex-wrap align-items-center gap-2">
+                            <span class="stat-pill">Recent intel: {{ market.recent_count }}</span>
+                            {% if market.latest_published_at %}
+                                <span class="stat-pill">Latest: {{ market.latest_published_at }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if market.latest_headline %}
+                            <div class="summary-text mt-3">Latest headline: {{ market.latest_headline }}</div>
+                        {% else %}
+                            <div class="text-muted small mt-2">No linked intel yet. Check back soon.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No configured markets found.</div>
+    {% endif %}
+</div>
+</body>
+</html>

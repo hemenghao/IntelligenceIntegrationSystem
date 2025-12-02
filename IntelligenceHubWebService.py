@@ -25,6 +25,7 @@ from ServiceComponent.RSSPublisher import RSSPublisher, FeedItem
 from ServiceComponent.PostManager import generate_html_from_markdown
 from ServiceComponent.ArticleRender import default_article_render
 from ServiceComponent.ArticleListRender import default_article_list_render
+from ServiceComponent.OpinionFeedService import OpinionFeedService
 from IntelligenceHub import CollectedData, IntelligenceHub, ProcessedData, APPENDIX_TIME_ARCHIVED
 from Tools.DateTimeUtility import get_aware_time, ensure_timezone_aware, time_str_to_datetime
 from Tools.RequestTracer import RequestTracer
@@ -171,6 +172,9 @@ class IntelligenceHubWebService:
 
         self.wsgi_app = app
         self.request_tracer = RequestTracer(app)
+
+        # Opinion intelligence feed helpers
+        opinion_feed_service = OpinionFeedService(self.intelligence_hub)
 
         # --------------------------------------------------- Config --------------------------------------------------
 
@@ -340,6 +344,45 @@ class IntelligenceHubWebService:
             recommendations = self.intelligence_hub.get_recommendations()
             return default_article_list_render(
                 recommendations, offset=0, count=len(recommendations), total_count=len(recommendations))
+
+        @app.route('/markets', methods=['GET'])
+        def markets_page():
+            category = request.args.get('category', default='All')
+            markets = opinion_feed_service.list_markets(category)
+            return render_template(
+                'markets_list.html',
+                markets=markets,
+                categories=opinion_feed_service.get_categories(),
+                active_category=category
+            )
+
+        @app.route('/markets/<topic_id>', methods=['GET'])
+        def market_detail_page(topic_id):
+            topic, feed_items = opinion_feed_service.get_topic_feed(topic_id)
+            if not topic:
+                return render_template('market_detail.html', topic={'market_title': 'Unknown market', 'ui_categories': []}, feed_items=[]), 404
+            return render_template('market_detail.html', topic=topic, feed_items=feed_items)
+
+        @app.route('/opinion/feed', methods=['GET'])
+        def opinion_feed_page():
+            category = request.args.get('category', default='All')
+            feed_items = opinion_feed_service.get_feed(category)
+            return render_template(
+                'opinion_feed.html',
+                feed_items=feed_items,
+                categories=opinion_feed_service.get_categories(),
+                active_category=category
+            )
+
+        @app.route('/opinion/feed.json', methods=['GET'])
+        def opinion_feed_api():
+            category = request.args.get('category', default='All')
+            feed_items = opinion_feed_service.get_feed(category)
+            return jsonify({
+                'category': category,
+                'categories': opinion_feed_service.get_categories(),
+                'items': feed_items
+            })
 
         @app.route('/intelligences/query', methods=['GET', 'POST'])
         # @WebServiceAccessManager.login_required

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinion Intelligence Feed</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/opinion_feed.css">
+</head>
+<body>
+<div class="container py-4">
+    <div class="feed-header">
+        <div>
+            <div class="subtle-label mb-1">Live Intelligence</div>
+            <h1>Opinion Intelligence Feed</h1>
+            <div class="text-muted">Filter by category to surface the most relevant markets.</div>
+        </div>
+        <a class="btn btn-opinion-outline" href="/markets">Market view</a>
+    </div>
+
+    <ul class="nav nav-pills mb-3">
+        {% for category in categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if category == active_category %}active{% endif %}"
+               href="?category={{ category }}">{{ category }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if feed_items %}
+        {% for item in feed_items %}
+        <div class="opinion-card">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h4 class="mb-1">{{ item.title }}</h4>
+                        <div class="meta">{{ item.source }} · {{ item.published_at or 'No timestamp' }}</div>
+                    </div>
+                    {% if item.link %}
+                    <a class="btn btn-opinion-outline btn-sm" href="{{ item.link }}" target="_blank">View Source</a>
+                    {% endif %}
+                </div>
+
+            <div class="mb-2">
+                {% for annotation in item.opinion_annotations %}
+                    <div class="annotation-pill">
+                        <span class="impact">{{ annotation.impact_level }}</span>
+                        <span class="sentiment">{{ annotation.sentiment_for_yes }} YES</span>
+                        <span class="text-secondary">{{ annotation.market_title }}</span>
+                        {% if annotation.opinion_market_url %}
+                            <a class="btn btn-sm btn-link" target="_blank" href="{{ annotation.opinion_market_url }}">Trade</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if item.summary %}
+                <div class="summary-text">{{ item.summary }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">No opinion-linked intelligence found for this category yet.</div>
+    {% endif %}
+</div>
+</body>
+</html>
